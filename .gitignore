@@ -1,0 +1,16 @@
+# IDEA
+.idea
+*.iml
+
+# Fleet
+.fleet
+
+# Gradle
+.gradle
+build
+gradle.properties
+
+# macOS
+.DS_Store
+__MACOSX
+*.icloud

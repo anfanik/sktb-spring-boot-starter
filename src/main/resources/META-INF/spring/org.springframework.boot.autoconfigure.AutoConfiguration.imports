@@ -1,0 +1,3 @@
+me.anfanik.sktb.telegram.TelegramConfiguration
+me.anfanik.sktb.update.UpdateConfiguration
+me.anfanik.sktb.chat.state.ChatStateConfiguration

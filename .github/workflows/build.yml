@@ -38,6 +38,10 @@ jobs:
           GITHUB_DEPENDENCY_GRAPH_SHA: ${{ github.sha }}
           GITHUB_DEPENDENCY_GRAPH_WORKSPACE: ${{ github.workspace }}
 
+      - name: Publish to Maven
+        run: ./gradlew publish
+        continue-on-error: true
+
       - uses: actions/upload-artifact@v4
         name: Upload build artifacts
         with:

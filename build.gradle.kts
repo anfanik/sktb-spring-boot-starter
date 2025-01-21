@@ -43,8 +43,34 @@ tasks {
         options.encoding = "UTF-8"
         options.compilerArgs.add("-Xlint:none")
     }
-    
+
     withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
         enabled = false
+    }
+
+    register<Jar>("sourcesJar") {
+        from(sourceSets.main.get().allSource)
+        archiveClassifier = "sources"
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHub"
+            url = uri("https://maven.pkg.github.com/anfanik/sktb-spring-boot-starter")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            }
+        }
+    }
+
+    publications {
+        register<MavenPublication>("library") {
+            from(components["kotlin"])
+
+            artifact(tasks["sourcesJar"])
+        }
     }
 }

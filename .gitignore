@@ -5,6 +5,9 @@
 # Fleet
 .fleet
 
+# Kotlin
+.kotlin
+
 # Gradle
 .gradle
 build

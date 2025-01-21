@@ -36,7 +36,7 @@ tasks {
         options.compilerArgs.add("-Xlint:none")
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        kotlinOptions.jvmTarget = "21"
     }
 
     withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {

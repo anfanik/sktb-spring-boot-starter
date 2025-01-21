@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     val kotlinVersion = "2.1.0"
     kotlin("jvm") version kotlinVersion
@@ -30,15 +32,18 @@ dependencies {
     implementation("com.github.pengrad:java-telegram-bot-api:7.11.0")
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
+    }
+}
+
 tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.compilerArgs.add("-Xlint:none")
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "21"
-    }
-
+    
     withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
         enabled = false
     }

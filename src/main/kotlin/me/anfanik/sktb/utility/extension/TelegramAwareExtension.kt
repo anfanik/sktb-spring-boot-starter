@@ -4,6 +4,7 @@ package me.anfanik.sktb.utility.extension
 
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup
 import com.pengrad.telegrambot.model.request.InputMedia
+import com.pengrad.telegrambot.model.request.LabeledPrice
 import com.pengrad.telegrambot.request.*
 import com.pengrad.telegrambot.response.*
 import me.anfanik.sktb.telegram.TelegramAware
@@ -135,6 +136,32 @@ inline fun TelegramAware.forwardMessage(chatId: String, fromChatId: Long, messag
 
 inline fun TelegramAware.answerCallbackQuery(callbackQueryId: String, modifier: AnswerCallbackQuery.() -> Unit = {}) : BaseResponse =
     execute(AnswerCallbackQuery(callbackQueryId), modifier)
+
+
+// AnswerPreCheckoutQuery
+
+fun TelegramAware.answerPreCheckoutQuery(preCheckoutId: String): BaseResponse =
+    execute(AnswerPreCheckoutQuery(preCheckoutId))
+
+fun TelegramAware.answerPreCheckoutQuery(preCheckoutId: String, errorMessage: String): BaseResponse =
+    execute(AnswerPreCheckoutQuery(preCheckoutId, errorMessage))
+
+
+// SendInvoice
+
+fun TelegramAware.sendInvoice(chatId: Long, title: String, description: String, payload: String, currency: String, items: List<LabeledPrice>, modifier: SendInvoice.() -> Unit = {}): SendResponse =
+    execute(SendInvoice(chatId, title, description, payload, currency, *items.toTypedArray()), modifier)
+
+fun TelegramAware.sendInvoice(chatId: Long, title: String, description: String, payload: String, currency: String, item: LabeledPrice, modifier: SendInvoice.() -> Unit = {}) =
+    sendInvoice(
+        chatId = chatId,
+        title = title,
+        description = description,
+        payload = payload,
+        currency = currency,
+        items = listOf(item),
+        modifier = modifier
+    )
 
 
 inline fun <T : BaseRequest<T, R>, R : BaseResponse> TelegramAware.execute(request: T, modifier: T.() -> Unit = {}): R =

@@ -22,13 +22,14 @@ jobs:
           java-version: 17
           distribution: zulu
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
         name: Set up Gradle
         with:
           dependency-graph: generate-and-submit
+          dependency-graph-continue-on-failure: true
 
       - name: Build binary
-        run: ./gradlew --init-script .github/gradle/init.gradle.kts build
+        run: ./gradlew build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_DEPENDENCY_GRAPH_JOB_ID: ${{ github.run_id }}

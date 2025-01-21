@@ -164,5 +164,11 @@ fun TelegramAware.sendInvoice(chatId: Long, title: String, description: String, 
     )
 
 
+// GetFile
+
+fun TelegramAware.getFile(fileId: String): GetFileResponse =
+    execute(GetFile(fileId))
+
+
 inline fun <T : BaseRequest<T, R>, R : BaseResponse> TelegramAware.execute(request: T, modifier: T.() -> Unit = {}): R =
     execute(request.apply(modifier))

@@ -44,6 +44,6 @@ class UpdateController(
     }
 
     private fun parseUpdate(updateRaw: String): Update =
-        BotUtils.GSON.fromJson(updateRaw, Update::class.java)
+        BotUtils.parseUpdate(updateRaw)
 
 }

@@ -3,10 +3,10 @@ package me.anfanik.sktb.chat.state.impl.abstr
 import com.pengrad.telegrambot.model.CallbackQuery
 import com.pengrad.telegrambot.model.Message
 import com.pengrad.telegrambot.model.Update
+import com.pengrad.telegrambot.utility.kotlin.extension.request.answerCallbackQuery
 import me.anfanik.sktb.chat.state.ChatStateService
 import me.anfanik.sktb.telegram.TelegramService
 import me.anfanik.sktb.update.listener.UpdateListener
-import me.anfanik.sktb.utility.extension.answerCallbackQuery
 import me.anfanik.sktb.utility.logger
 
 abstract class UpdateProcessingChatStateService : ChatStateService {

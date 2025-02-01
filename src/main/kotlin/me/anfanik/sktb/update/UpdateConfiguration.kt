@@ -1,6 +1,6 @@
 package me.anfanik.sktb.update
 
-import me.anfanik.sktb.telegram.TelegramConfig
+import me.anfanik.sktb.telegram.TelegramProperties
 import me.anfanik.sktb.update.impl.UpdateRoutingServiceImpl
 import me.anfanik.sktb.update.listener.UpdateListenerBeanPostProcessor
 import org.springframework.boot.autoconfigure.AutoConfiguration
@@ -27,8 +27,8 @@ class UpdateConfiguration {
     @ConditionalOnProperty("telegram.webhook.enabled", havingValue = "true")
     @ConditionalOnClass(RestController::class)
     fun updateController(
-        telegramConfig: TelegramConfig,
+        telegramProperties: TelegramProperties,
         updateRoutingService: UpdateRoutingService
-    ): UpdateController = UpdateController(telegramConfig, updateRoutingService)
+    ): UpdateController = UpdateController(telegramProperties, updateRoutingService)
 
 }

@@ -2,6 +2,7 @@ package me.anfanik.sktb.utility.format
 
 import com.pengrad.telegrambot.model.request.ParseMode
 import com.pengrad.telegrambot.model.request.ParseMode.*
+import com.pengrad.telegrambot.request.BaseRequest
 import com.pengrad.telegrambot.request.EditMessageCaption
 import com.pengrad.telegrambot.request.EditMessageText
 import com.pengrad.telegrambot.request.SendMessage
@@ -44,6 +45,14 @@ private fun getMarkdownFormatter(parseMode: ParseMode): MarkdownFormatter =
         Markdown -> MarkdownV1MarkdownFormatter
         MarkdownV2 -> TODO()
     }
+
+fun BaseRequest<*, *>.setupFormatting(settings: FormatSettings = DEFAULT_FORMAT_SETTINGS) {
+    when (this) {
+        is SendMessage -> setupFormatting(settings)
+        is EditMessageText -> setupFormatting(settings)
+        is EditMessageCaption -> setupFormatting(settings)
+    }
+}
 
 fun SendMessage.setupFormatting(settings: FormatSettings = DEFAULT_FORMAT_SETTINGS) {
     parseMode(settings.mode)

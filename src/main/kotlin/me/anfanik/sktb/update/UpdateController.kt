@@ -2,7 +2,7 @@ package me.anfanik.sktb.update
 
 import com.pengrad.telegrambot.model.Update
 import com.pengrad.telegrambot.utility.BotUtils
-import me.anfanik.sktb.telegram.TelegramConfig
+import me.anfanik.sktb.telegram.TelegramProperties
 import me.anfanik.sktb.utility.logger
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.http.ResponseEntity
@@ -13,7 +13,7 @@ const val TELEGRAM_SECRET_HEADER = "X-Telegram-Bot-Api-Secret-Token"
 @RestController
 @RequestMapping("/telegram/updates")
 class UpdateController(
-    private val telegramConfig: TelegramConfig,
+    private val telegramProperties: TelegramProperties,
     private val updateRoutingService: UpdateRoutingService
 ) {
 
@@ -22,7 +22,7 @@ class UpdateController(
         @RequestBody updateRaw: String,
         @RequestHeader(TELEGRAM_SECRET_HEADER, required = false) secret: String?
     ): ResponseEntity<Unit> {
-        if (secret != telegramConfig.webhook.secret) {
+        if (secret != telegramProperties.webhook.secret) {
             logger().warn("Received update with invalid secret: $secret")
             return ResponseEntity.status(UNAUTHORIZED).build()
         }

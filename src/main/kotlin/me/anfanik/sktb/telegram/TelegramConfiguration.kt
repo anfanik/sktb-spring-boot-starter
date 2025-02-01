@@ -3,9 +3,12 @@ package me.anfanik.sktb.telegram
 import com.pengrad.telegrambot.TelegramBot
 import com.pengrad.telegrambot.UpdatesListener
 import com.pengrad.telegrambot.model.User
+import com.pengrad.telegrambot.utility.kotlin.extension.request.getMe
+import jakarta.annotation.PostConstruct
 import me.anfanik.sktb.telegram.impl.TelegramServiceImpl
 import me.anfanik.sktb.update.UpdateRoutingService
-import me.anfanik.sktb.utility.extension.getMe
+import me.anfanik.sktb.utility.format.DEFAULT_FORMAT_SETTINGS
+import me.anfanik.sktb.utility.format.FormatSettings
 import me.anfanik.sktb.utility.logger
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.beans.factory.annotation.Qualifier
@@ -15,10 +18,19 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 
 @AutoConfiguration
-@EnableConfigurationProperties(TelegramConfig::class)
+@EnableConfigurationProperties(TelegramProperties::class)
 class TelegramConfiguration(
-    private val config: TelegramConfig
+    private val config: TelegramProperties
 ) {
+
+    @PostConstruct
+    fun setupFormatting() {
+        logger().info("Setting up default formatting options")
+        DEFAULT_FORMAT_SETTINGS = FormatSettings(
+            mode = config.formatting.mode,
+            disableLinkPreview = config.formatting.disableLinkPreview
+        )
+    }
 
     @Bean
     @ConditionalOnMissingBean(TelegramBot::class)
@@ -28,6 +40,12 @@ class TelegramConfiguration(
         val client = try {
             TelegramBot.Builder(config.token)
                 .apiUrl(config.apiUrl)
+                .apply {
+                    if (config.formatting.enabled) {
+                        logger().info("Setting up formatting for Telegram client")
+                        requestPreprocessor(FormattingSetupRequestPreprocessor())
+                    }
+                }
                 .build()
         } catch (throwable: Throwable) {
             logger().error("Unable to configure Telegram client: ${throwable::class.simpleName} - ${throwable.message}", throwable)

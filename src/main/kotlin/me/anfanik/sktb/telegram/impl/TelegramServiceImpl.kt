@@ -10,7 +10,7 @@ class TelegramServiceImpl(
     private val telegramBot: TelegramBot
 ) : TelegramService {
 
-    override fun <REQ : BaseRequest<REQ, RES>, RES : BaseResponse> execute(request: REQ): RES {
+    override fun <REQ : BaseRequest<REQ, RES>, RES : BaseResponse> execute(request: BaseRequest<REQ, RES>): RES {
         val response = telegramBot.execute(request)
 
         if (response.isOk) {

@@ -29,7 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation("com.github.pengrad:java-telegram-bot-api:7.11.0")
+    implementation("com.github.pengrad:java-telegram-bot-api:8.1.0")
 }
 
 kotlin {

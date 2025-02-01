@@ -7,8 +7,8 @@ import com.pengrad.telegrambot.utility.kotlin.extension.request.getMe
 import jakarta.annotation.PostConstruct
 import me.anfanik.sktb.telegram.impl.TelegramServiceImpl
 import me.anfanik.sktb.update.UpdateRoutingService
-import me.anfanik.sktb.utility.format.DEFAULT_FORMAT_SETTINGS
-import me.anfanik.sktb.utility.format.FormatSettings
+import me.anfanik.sktb.utility.format.DEFAULT_FORMATTING_PARAMETERS
+import me.anfanik.sktb.utility.format.FormattingParameters
 import me.anfanik.sktb.utility.logger
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.beans.factory.annotation.Qualifier
@@ -25,8 +25,8 @@ class TelegramConfiguration(
 
     @PostConstruct
     fun setupFormatting() {
-        logger().info("Setting up default formatting options")
-        DEFAULT_FORMAT_SETTINGS = FormatSettings(
+        logger().info("Initializing default formatting options")
+        DEFAULT_FORMATTING_PARAMETERS = FormattingParameters(
             mode = config.formatting.mode,
             disableLinkPreview = config.formatting.disableLinkPreview
         )
@@ -41,7 +41,7 @@ class TelegramConfiguration(
             TelegramBot.Builder(config.token)
                 .apiUrl(config.apiUrl)
                 .apply {
-                    if (config.formatting.enabled) {
+                    if (config.formatting.setupRequestsFormatting) {
                         logger().info("Setting up formatting for Telegram client")
                         requestPreprocessor(FormattingSetupRequestPreprocessor())
                     }

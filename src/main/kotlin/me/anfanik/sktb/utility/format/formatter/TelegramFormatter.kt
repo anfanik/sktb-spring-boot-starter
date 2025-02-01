@@ -1,6 +1,6 @@
 package me.anfanik.sktb.utility.format.formatter
 
-interface MarkdownFormatter {
+interface TelegramFormatter {
 
     fun bold(text: String): String
 

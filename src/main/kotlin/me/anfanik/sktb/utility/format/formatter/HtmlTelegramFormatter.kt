@@ -1,6 +1,6 @@
 package me.anfanik.sktb.utility.format.formatter
 
-object HtmlMarkdownFormatter : MarkdownFormatter {
+object HtmlTelegramFormatter : TelegramFormatter {
 
     override fun bold(text: String) = "<b>$text</b>"
 

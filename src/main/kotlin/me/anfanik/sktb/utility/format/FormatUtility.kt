@@ -6,47 +6,46 @@ import com.pengrad.telegrambot.request.BaseRequest
 import com.pengrad.telegrambot.request.EditMessageCaption
 import com.pengrad.telegrambot.request.EditMessageText
 import com.pengrad.telegrambot.request.SendMessage
-import me.anfanik.sktb.utility.format.formatter.HtmlMarkdownFormatter
-import me.anfanik.sktb.utility.format.formatter.MarkdownFormatter
-import me.anfanik.sktb.utility.format.formatter.MarkdownV1MarkdownFormatter
+import me.anfanik.sktb.utility.format.formatter.*
 
-var DEFAULT_FORMAT_SETTINGS = FormatSettings(
-    mode = HTML,
-    disableLinkPreview = true
-)
+var DEFAULT_FORMATTING_PARAMETERS: FormattingParameters? = null
 
-fun String.bold(parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+private fun getDefaultFormattingParameters() =
+    DEFAULT_FORMATTING_PARAMETERS
+        ?: throw IllegalStateException("Default formatting parameters is not initialized")
+
+fun String.bold(parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).bold(this)
 
-fun String.italic(parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+fun String.italic(parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).italic(this)
 
-fun String.underline(parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+fun String.underline(parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).underline(this)
 
-fun String.strikethrough(parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+fun String.strikethrough(parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).strikethrough(this)
 
-fun String.spoiler(parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+fun String.spoiler(parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).spoiler(this)
 
-fun String.url(url: String, parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+fun String.url(url: String, parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).url(this, url)
 
-fun String.emoji(emojiId: Long, parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+fun String.emoji(emojiId: Long, parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).emoji(this, emojiId)
 
-fun String.code(language: String? = null, parseMode: ParseMode = DEFAULT_FORMAT_SETTINGS.mode) =
+fun String.code(language: String? = null, parseMode: ParseMode = getDefaultFormattingParameters().mode) =
     getMarkdownFormatter(parseMode).code(this, language)
 
-private fun getMarkdownFormatter(parseMode: ParseMode): MarkdownFormatter =
+private fun getMarkdownFormatter(parseMode: ParseMode): TelegramFormatter =
     when (parseMode) {
-        HTML -> HtmlMarkdownFormatter
-        Markdown -> MarkdownV1MarkdownFormatter
+        HTML -> HtmlTelegramFormatter
+        Markdown -> MarkdownV1TelegramFormatter
         MarkdownV2 -> TODO()
     }
 
-fun BaseRequest<*, *>.setupFormatting(settings: FormatSettings = DEFAULT_FORMAT_SETTINGS) {
+fun BaseRequest<*, *>.setupFormatting(settings: FormattingParameters = getDefaultFormattingParameters()) {
     when (this) {
         is SendMessage -> setupFormatting(settings)
         is EditMessageText -> setupFormatting(settings)
@@ -54,16 +53,16 @@ fun BaseRequest<*, *>.setupFormatting(settings: FormatSettings = DEFAULT_FORMAT_
     }
 }
 
-fun SendMessage.setupFormatting(settings: FormatSettings = DEFAULT_FORMAT_SETTINGS) {
+fun SendMessage.setupFormatting(settings: FormattingParameters = getDefaultFormattingParameters()) {
     parseMode(settings.mode)
     linkPreviewOptions(settings.toLinkPreviewOptions())
 }
 
-fun EditMessageText.setupFormatting(settings: FormatSettings = DEFAULT_FORMAT_SETTINGS) {
+fun EditMessageText.setupFormatting(settings: FormattingParameters = getDefaultFormattingParameters()) {
     parseMode(settings.mode)
     linkPreviewOptions(settings.toLinkPreviewOptions())
 }
 
-fun EditMessageCaption.setupFormatting(settings: FormatSettings = DEFAULT_FORMAT_SETTINGS) {
+fun EditMessageCaption.setupFormatting(settings: FormattingParameters = getDefaultFormattingParameters()) {
     parseMode(settings.mode)
 }

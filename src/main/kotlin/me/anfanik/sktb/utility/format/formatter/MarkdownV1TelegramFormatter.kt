@@ -2,7 +2,7 @@ package me.anfanik.sktb.utility.format.formatter
 
 import kotlin.reflect.KFunction
 
-object MarkdownV1MarkdownFormatter : MarkdownFormatter {
+object MarkdownV1TelegramFormatter : TelegramFormatter {
 
     override fun bold(text: String) = "*$text*"
 

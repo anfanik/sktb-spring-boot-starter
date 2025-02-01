@@ -26,7 +26,7 @@ Add `sktb-spring-boot-starter` dependency
 
   Add `sktb-spring-boot-starter` dependency:
     ```kotlin
-    implementation("me.anfanik:sktb-spring-boot-starter:1.0-SNAPSHOT")
+    implementation("me.anfanik:sktb-spring-boot-starter:8.1.0.0")
     ```
 
 ## Examples

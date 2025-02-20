@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "me.anfanik"
-version = "8.1.0.0"
+version = "8.3.0.0"
 
 repositories {
     mavenCentral()
@@ -29,7 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation("com.github.pengrad:java-telegram-bot-api:8.1.0")
+    implementation("com.github.pengrad:java-telegram-bot-api:8.3.0")
 }
 
 kotlin {
